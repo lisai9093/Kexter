@@ -320,7 +320,6 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         
         currentHelperConnection = connection
         currentHelperConnection?.resume()
-        //var tempVar = self.currentHelperConnection
         return currentHelperConnection
     }
     
@@ -329,7 +328,6 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         // Get the current helper connection and return the remote object (Helper.swift) as a proxy object to call functions on.
         guard let helper = self.helperConnection()?.remoteObjectProxyWithErrorHandler({ error in
             //self.textViewOutput.appendText("Helper connection was closed with error: \(error)")
-            Swift.print("debug 1")
             if let onCompletion = completion { onCompletion(false) }
         }) as? HelperProtocol else { return nil }
         return helper
