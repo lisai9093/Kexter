@@ -627,5 +627,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "kexter/maintenanceView.swift"
+            timestampString = "572389179.626089"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Kexter.maintenance.viewDidLoad() -&gt; ()"
+                  moduleName = "Kexter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/saizhou/Documents/My%20Apps/Kexter/kexter/maintenanceView.swift"
+                  timestampString = "572380787.746771"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1340">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Bool) -&gt; () in Kexter.maintenance.viewDidLoad() -&gt; ()"
+                  moduleName = "Kexter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/saizhou/Documents/My%20Apps/Kexter/kexter/maintenanceView.swift"
+                  timestampString = "572380787.7488019"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

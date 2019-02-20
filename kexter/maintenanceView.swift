@@ -18,6 +18,7 @@ class maintenance: NSViewController, AppProtocol {
     @IBOutlet weak var lePermissionCheck: NSButton!
     @IBOutlet weak var cacheCheck: NSButton!
     @IBOutlet weak var executeButton: NSButton!
+    @IBOutlet weak var maintenanceProgress: NSProgressIndicator!
     
     @objc dynamic private var helperIsInstalled = false
     @objc dynamic var currentHelperAuthData: NSData?
@@ -35,16 +36,19 @@ class maintenance: NSViewController, AppProtocol {
         } catch {
             //self.textViewOutput.appendText("Failed to update the authorization database rights with error: \(error)")
         }
-        
+        executeButton.isEnabled = false
+        OperationQueue.main.maxConcurrentOperationCount = 1
         self.helperStatus { installed in
             OperationQueue.main.addOperation {
                 //self.textFieldHelperInstalled.stringValue = (installed) ? "Yes1" : "No1"
-                helperInstalled = installed
-                //Swift.print("1: \(helperInstalled)")
+                
                 self.setValue(installed, forKey: helperIsInstalledKeyPath)
+                helperInstalled = installed
+                globalHelperIsInstalled = installed
+                self.executeButton.isEnabled = true
             }
         }
-        
+        //OperationQueue.main.addOperation(completionOperation)
     }
     
     @IBAction func sleCheck(_ sender: Any) {
@@ -131,11 +135,8 @@ class maintenance: NSViewController, AppProtocol {
         }
     }
     
-    
-    
-    
-    
     @IBAction func executeButton(_ sender: Any) {
+        maintenanceProgress.doubleValue = 0.0
         checkHelper()
         if sleCheck.state == .off, leCheck.state == .off{
             dialogAlert(question: "Error", text: "You haven't selected any option.")
@@ -144,13 +145,11 @@ class maintenance: NSViewController, AppProtocol {
         commandView()
     }
     
-    
     func checkHelper() {
         // Check if the current embedded helper tool is installed on the machine. Install helper if found no helper
         if globalHelperIsInstalled {
             self.helperIsInstalled = globalHelperIsInstalled
         }
-        Swift.print("maintenance helperInstalled: \(helperIsInstalled)")
         self.helperStatus { installed in
             OperationQueue.main.addOperation {
                 //self.textFieldHelperInstalled.stringValue = (installed) ? "Yes" : "No"
@@ -158,10 +157,10 @@ class maintenance: NSViewController, AppProtocol {
                 self.setValue(installed, forKey: helperIsInstalledKeyPath)
             }
         }
-        Swift.print("maintenance checkHelper(): \(helperInstalled)")
         
         //need install?
-        if !globalHelperIsInstalled {
+        //if !globalHelperIsInstalled {
+        if !helperIsInstalled {
             //install helper
             do {
                 if try self.helperInstall() {
@@ -257,12 +256,15 @@ class maintenance: NSViewController, AppProtocol {
                 //self.textViewOutput.appendText("Failed to get the empty authorization external form")
                 return
             }
+            /*
             for i in allPaths.indices {
                 let stringPrint = command[i] + " " + option[i] + " " + allPaths[i] + " " + destinyPath[i]
                 //self.textViewOutput.appendText(stringPrint)
             }
+             */
             //run command
             executeButton.isEnabled = false
+            //let N = Double(command.count)
             helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, authData: authData) { (exitCode) in
                 OperationQueue.main.addOperation {
                     // Verify that authentication was successful
@@ -271,8 +273,10 @@ class maintenance: NSViewController, AppProtocol {
                         self.executeButton.isEnabled = true
                         return
                     }
-                    
                     //self.textViewOutput.appendText("Command exit code: \(exitCode)")
+                    let incrementNum : Double = 100.0
+                    self.maintenanceProgress.increment(by : incrementNum)
+                    self.executeButton.isEnabled = true
                     if self.currentHelperAuthData == nil {
                         self.currentHelperAuthData = authData
                         textFieldAuthorizationCached = true
@@ -281,7 +285,7 @@ class maintenance: NSViewController, AppProtocol {
                     maintainAuthData = self.currentHelperAuthData
                 }
             }
-        executeButton.isEnabled = true
+        
         } catch {
             //self.textViewOutput.appendText("Command failed with error: \(error)")
             self.executeButton.isEnabled = true

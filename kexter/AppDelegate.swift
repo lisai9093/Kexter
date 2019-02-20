@@ -32,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AppProtocol {
         }
         return true
     }
+
     
     func log(stdOut: String) {
         guard !stdOut.isEmpty else { return }

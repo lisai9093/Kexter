@@ -15,7 +15,7 @@ class HelperAuthorization {
 
     static let authorizationRights = [
         HelperAuthorizationRight(command: #selector(HelperProtocol.runCommand(withCommand:withOption:withPath:withDest:withBackup:authData:completion:)),
-                                 description: "Kexter wants to install selected kext",
+                                 description: "Kexter wants to make changes.",
                                  ruleCustom: [kAuthorizationRightKeyClass: "user", kAuthorizationRightKeyGroup: "admin", kAuthorizationRightKeyVersion: 1])
     ]
 

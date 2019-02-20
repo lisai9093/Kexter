@@ -40,6 +40,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
     @IBOutlet weak var radioNumber1: NSButton!
     @IBOutlet weak var radioNumber2: NSButton!
     @IBOutlet weak var backupCheck: NSButton!
+    @IBOutlet weak var installationProgress: NSProgressIndicator!
     
     private var dragDropType = NSPasteboard.PasteboardType.fileURL
     
@@ -70,18 +71,22 @@ class installaion: NSViewController, AppProtocol, mainCommand {
             //self.textViewOutput.appendText("Failed to update the authorization database rights with error: \(error)")
         }
         
+        buttonInstallHelper.isEnabled = false
+        OperationQueue.main.maxConcurrentOperationCount = 1 //wait for helper status
         self.helperStatus { installed in
             OperationQueue.main.addOperation {
                 //self.textFieldHelperInstalled.stringValue = (installed) ? "Yes1" : "No1"
-                helperInstalled = installed
-                //Swift.print("1: \(helperInstalled)")
                 self.setValue(installed, forKey: helperIsInstalledKeyPath)
+                helperInstalled = installed
+                globalHelperIsInstalled = installed
+                self.buttonInstallHelper.isEnabled = true
             }
         }
         
     }
     
     @IBAction func buttonInstallHelper(_ sender: Any) {
+        installationProgress.doubleValue = 0.0
         checkHelper()
         if allPaths.isEmpty {
             dialogAlert(question: "Error", text: "You haven't selected any kext to install.")
@@ -149,7 +154,6 @@ class installaion: NSViewController, AppProtocol, mainCommand {
                 self.setValue(installed, forKey: helperIsInstalledKeyPath)
             }
         }
-        Swift.print("install checkHelper(): \(helperInstalled)")
         
         //need install?
         if !globalHelperIsInstalled {
@@ -228,7 +232,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
             }
             catch let error as NSError
             {
-                Swift.print("Unable to create directory \(error.debugDescription)")
+                NSLog("Unable to create directory. %s", error.debugDescription)
             }
         }
         
@@ -240,10 +244,12 @@ class installaion: NSViewController, AppProtocol, mainCommand {
                 //self.textViewOutput.appendText("Failed to get the empty authorization external form")
                 return
             }
+            /*
             for i in allPaths.indices {
                 let stringPrint = command[i] + " " + option[i] + " " + allPaths[i] + " " + destinyPath[i]
                 //self.textViewOutput.appendText(stringPrint)
             }
+             */
             //run command
             buttonInstallHelper.isEnabled = false
             helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, authData: authData) { (exitCode) in
@@ -256,6 +262,9 @@ class installaion: NSViewController, AppProtocol, mainCommand {
                     }
                     
                     //self.textViewOutput.appendText("Command exit code: \(exitCode)")
+                    let incrementNum : Double = 100.0
+                    self.installationProgress.increment(by : incrementNum)
+                    self.buttonInstallHelper.isEnabled = true
                     if self.currentHelperAuthData == nil {
                         self.currentHelperAuthData = authData
                         textFieldAuthorizationCached = true
@@ -265,7 +274,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
                     
                 }
             }
-        buttonInstallHelper.isEnabled = true
+        
         } catch {
             //self.textViewOutput.appendText("Command failed with error: \(error)")
             self.buttonInstallHelper.isEnabled = true
@@ -276,6 +285,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         // Comppare the CFBundleShortVersionString from the Info.plis in the helper inside our application bundle with the one on disk.
         
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/" + HelperConstants.machServiceName)
+        Swift.print(helperURL.absoluteString)
         guard
             //helperBundleInfo is helper info version
             let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],

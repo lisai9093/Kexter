@@ -214,6 +214,10 @@
                                     <action selector="buttonInstallHelper:" target="yHE-uN-ysl" id="AAA-P7-bp8"/>
                                 </connections>
                             </button>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="db5-Hc-dvi">
+                                <rect key="frame" x="20" y="19" width="204" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
@@ -221,6 +225,7 @@
                         <outlet property="browseButton" destination="2X6-Qo-iL7" id="3LR-Ep-Mw7"/>
                         <outlet property="buttonInstallHelper" destination="vZs-ez-CS4" id="aIq-lh-l0B"/>
                         <outlet property="clearButton" destination="mG5-d8-BrX" id="Mo6-ZV-vK1"/>
+                        <outlet property="installationProgress" destination="db5-Hc-dvi" id="DwV-32-KQu"/>
                         <outlet property="radioNumber1" destination="Bd8-Uh-nFe" id="IUa-58-xRN"/>
                         <outlet property="radioNumber2" destination="EO9-f3-lZU" id="oph-wX-paU"/>
                         <outlet property="tableView" destination="FWo-Ws-aYG" id="SO1-jN-8LN"/>
@@ -312,7 +317,7 @@
                                 <rect key="frame" x="50" y="272" width="371" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repair ownership (root:wheel) and permissions (755) for /S/L/E folder." id="G0W-cn-3kw">
-                                    <font key="font" metaFont="system" size="11"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -321,7 +326,7 @@
                                 <rect key="frame" x="50" y="189" width="360" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repair ownership (root:wheel) and permissions (755) for /L/E folder." id="RD1-ae-gbU">
-                                    <font key="font" metaFont="system" size="11"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -335,6 +340,10 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="g3E-TT-2od">
+                                <rect key="frame" x="20" y="19" width="204" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
@@ -342,6 +351,7 @@
                         <outlet property="executeButton" destination="MDY-Gl-9t4" id="6pP-aW-95e"/>
                         <outlet property="leCheck" destination="VZC-sZ-jjt" id="xf3-8U-iz0"/>
                         <outlet property="lePermissionCheck" destination="afQ-Dq-crV" id="Y6E-cT-PAu"/>
+                        <outlet property="maintenanceProgress" destination="g3E-TT-2od" id="4Ib-WS-OQz"/>
                         <outlet property="sleCheck" destination="iNL-B7-a5k" id="jJV-Op-aaL"/>
                         <outlet property="slePermissionCheck" destination="sPj-Dn-vTQ" id="uXy-2Z-JpE"/>
                     </connections>
@@ -362,6 +372,9 @@
                                     <items>
                                         <menuItem title="About Kexter" id="0Bb-DZ-qaa">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontStandardAboutPanel:" target="rbE-2k-6gI" id="l3P-5w-om2"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zDY-1X-fpy"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="Zyc-uN-caG"/>
@@ -371,15 +384,34 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="kOi-Ng-Rse"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="D3a-IR-TtI"/>
-                                        <menuItem title="Hide Kexter" keyEquivalent="h" id="EzF-74-VH1"/>
+                                        <menuItem title="Hide Kexter" keyEquivalent="h" id="EzF-74-VH1">
+                                            <connections>
+                                                <action selector="hide:" target="rbE-2k-6gI" id="u4K-Hm-SPs"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Hide Others" keyEquivalent="h" id="DLg-iQ-oiD">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="hideOtherApplications:" target="rbE-2k-6gI" id="UG0-Xl-dU9"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Show All" id="TRz-ps-OSl">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="unhideAllApplications:" target="rbE-2k-6gI" id="1H4-td-8QZ"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="Ccv-66-11y"/>
-                                        <menuItem title="Quit Kexter" keyEquivalent="q" id="lbl-TP-Zc2"/>
+                                        <menuItem title="Close Window" keyEquivalent="w" id="7Hf-rE-M9a" userLabel="Close Window">
+                                            <connections>
+                                                <action selector="terminate:" target="rbE-2k-6gI" id="4Rc-cj-lov"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Quit Kexter" keyEquivalent="q" id="lbl-TP-Zc2">
+                                            <connections>
+                                                <action selector="terminate:" target="rbE-2k-6gI" id="co1-9C-TjV"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -681,6 +713,9 @@
                                     <items>
                                         <menuItem title="Show Toolbar" keyEquivalent="t" id="mWv-0l-XBn">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleToolbarShown:" target="rbE-2k-6gI" id="3Kn-8k-co4"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Customize Toolbar…" id="3nc-e4-MQe">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -714,7 +749,11 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="Q24-jw-C8X">
                                     <items>
-                                        <menuItem title="Kexter Help" keyEquivalent="?" id="vjL-pQ-tH9"/>
+                                        <menuItem title="Kexter Help" keyEquivalent="?" id="vjL-pQ-tH9">
+                                            <connections>
+                                                <action selector="showHelp:" target="rbE-2k-6gI" id="5ts-sQ-cVd"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
