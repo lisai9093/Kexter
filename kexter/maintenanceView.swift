@@ -136,15 +136,15 @@ class maintenance: NSViewController, AppProtocol {
     }
     
     @IBAction func executeButton(_ sender: Any) {
-        maintenanceProgress.isIndeterminate = false
-        maintenanceProgress.doubleValue = 0.0
-        maintenanceProgress.isIndeterminate = true
-        maintenanceProgress.startAnimation(nil)
         checkHelper()
         if sleCheck.state == .off, leCheck.state == .off{
             dialogAlert(question: "Error", text: "You haven't selected any option.")
             return
         }
+        maintenanceProgress.isIndeterminate = false
+        maintenanceProgress.doubleValue = 0.0
+        maintenanceProgress.isIndeterminate = true
+        maintenanceProgress.startAnimation(nil)
         commandView()
     }
     
