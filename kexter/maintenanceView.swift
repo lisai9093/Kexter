@@ -64,6 +64,7 @@ class maintenance: NSViewController, AppProtocol {
             slePermissionCheck.state = .on
             cacheCheck.state = .on
         }
+        lePermissionCheck(sender)
     }
     @IBAction func slePermissionCheck(_ sender: Any) {
         if slePermissionCheck.state == .on {
@@ -93,6 +94,7 @@ class maintenance: NSViewController, AppProtocol {
             lePermissionCheck.state = .on
             cacheCheck.state = .on
         }
+        slePermissionCheck(sender)
     }
     @IBAction func lePermissionCheck(_ sender: Any) {
         if lePermissionCheck.state == .on {
