@@ -103,9 +103,11 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     //general command
     func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, completion: @escaping (NSNumber) -> Void) {
         
+        //check if backup needed
         if !backupPath.isEmpty {
             for i in destinyPath.indices {
-                let arguments = ["-rf", destinyPath[i], backupPath]
+                let sourcePath = destinyPath[i] + (path[i] as NSString).lastPathComponent
+                let arguments = ["-rf", sourcePath, backupPath]
                 self.runTask(command: "/bin/cp", arguments: arguments, completion: completion)
             }
         }

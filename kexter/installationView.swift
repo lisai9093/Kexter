@@ -195,13 +195,11 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         let N = allPaths.count
         //destiny = homeURL.path + "/Desktop/" //debug only, must remove
         let command = [String](repeating: "/bin/cp", count: N)
-        let option = [String](repeating: "-rf", count: N)
+        let option = [String](repeating: "-R", count: N)
         var destinyPath = [String]()
         var backupPath = String()
-        destinyPath = allPaths
-        for i in allPaths.indices {
-            destinyPath[i] = destiny + (allPaths[i] as NSString).lastPathComponent
-        }
+        destinyPath = [String](repeating: destiny, count: N)
+        
         
         
         if backupCheck.state == NSControl.StateValue.off {

@@ -136,7 +136,10 @@ class maintenance: NSViewController, AppProtocol {
     }
     
     @IBAction func executeButton(_ sender: Any) {
+        maintenanceProgress.isIndeterminate = false
         maintenanceProgress.doubleValue = 0.0
+        maintenanceProgress.isIndeterminate = true
+        maintenanceProgress.startAnimation(nil)
         checkHelper()
         if sleCheck.state == .off, leCheck.state == .off{
             dialogAlert(question: "Error", text: "You haven't selected any option.")
@@ -202,8 +205,11 @@ class maintenance: NSViewController, AppProtocol {
         var destinyPath = [String]()
         let backupPath = String()
         
+        //permission change:
         if slePermissionCheck.state == .on {
             //sudo chmod -Rf 755 /S*/L*/E* and sudo chown -Rf 0:0 /S*/L*/E*
+            //chmod 0755 location/*/Contents/MacOS/*
+            //chmod 0755 lcoation/*/Contents/PlugIns/*/Contents/MacOS/*
             let N = 2
             let addCommand = ["/bin/chmod","/usr/sbin/chown"]
             let addOption = [String](repeating: "-Rf", count: N)
@@ -233,13 +239,13 @@ class maintenance: NSViewController, AppProtocol {
             destinyPath = destinyPath + addDestinyPath
         }
         if cacheCheck.state == .on {
-            //sudo touch -f /S*/L*/E* && sudo touch -f /L*/E* && sudo kextcache -Boot -U /
+            //sudo kextcache -i /
             //let N = 3
-            let addCommand = ["/usr/bin/touch","/usr/bin/touch","/usr/sbin/kextcache"]
-            let addOption = ["-f","-f","-i"]
-            let addAllPaths = [SLE, LE, "/"]
+            let addCommand = ["/usr/sbin/kextcache"]
+            let addOption = ["-i"]
+            let addAllPaths = ["/"]
             //destinyPath = ["/L*/E*", "/L*/E*"]
-            let addDestinyPath = ["","",""]
+            let addDestinyPath = [""]
             
             //add operation
             command = command + addCommand
@@ -274,6 +280,9 @@ class maintenance: NSViewController, AppProtocol {
                         return
                     }
                     //self.textViewOutput.appendText("Command exit code: \(exitCode)")
+                    
+                    self.maintenanceProgress.stopAnimation(nil)
+                    self.maintenanceProgress.isIndeterminate = false
                     let incrementNum : Double = 100.0
                     self.maintenanceProgress.increment(by : incrementNum)
                     self.executeButton.isEnabled = true
@@ -289,6 +298,7 @@ class maintenance: NSViewController, AppProtocol {
         } catch {
             //self.textViewOutput.appendText("Command failed with error: \(error)")
             self.executeButton.isEnabled = true
+            
         }
         
         
@@ -398,4 +408,20 @@ class maintenance: NSViewController, AppProtocol {
         }
     }
     
+    //normal command without priviledge
+    func shell(launchPath: String, arguments: [String]) -> String?
+    {
+        let task = Process()
+        task.launchPath = launchPath
+        task.arguments = arguments
+        
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.launch()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: String.Encoding.utf8)
+        
+        return output
+    }
 }
