@@ -198,6 +198,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         let option = [String](repeating: "-R", count: N)
         var destinyPath = [String]()
         var backupPath = String()
+        let forceArguments = [[String]]()
         destinyPath = [String](repeating: destiny, count: N)
         
         
@@ -250,7 +251,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
              */
             //run command
             buttonInstallHelper.isEnabled = false
-            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, authData: authData) { (exitCode) in
+            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, authData: authData) { (exitCode) in
                 OperationQueue.main.addOperation {
                     // Verify that authentication was successful
                     guard exitCode != kAuthorizationFailedExitCode else {

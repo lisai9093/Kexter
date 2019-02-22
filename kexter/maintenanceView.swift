@@ -200,60 +200,59 @@ class maintenance: NSViewController, AppProtocol {
         
         //prepare commands
         var command = [String]()
-        var option = [String]()
-        var allPaths = [String]()
-        var destinyPath = [String]()
+        let option = [String]()
+        let allPaths = [String]()
+        let destinyPath = [String]()
         let backupPath = String()
+        var forceArguments = [[String]]()
         
         //permission change:
+        ///usr/sbin/chown -Rf 0:0 location
+        ///usr/bin/find location -type d -exec chmod 0755 {} +
+        ///usr/bin/find location -type f -exec chmod 0644 {} +
+        ///usr/bin/find location -type f -path "*/MacOS/*" -exec chmod 0755 {} +
         if slePermissionCheck.state == .on {
             //sudo chmod -Rf 755 /S*/L*/E* and sudo chown -Rf 0:0 /S*/L*/E*
             //chmod 0755 location/*/Contents/MacOS/*
             //chmod 0755 lcoation/*/Contents/PlugIns/*/Contents/MacOS/*
-            let N = 2
-            let addCommand = ["/bin/chmod","/usr/sbin/chown"]
-            let addOption = [String](repeating: "-Rf", count: N)
-            let addAllPaths = ["755", "0:0"]
-            //destinyPath = ["/L*/E*", "/L*/E*"]
-            let addDestinyPath = [SLE, SLE]
+            //let N = 4
+            let addCommand = ["/usr/sbin/chown","/usr/bin/find","/usr/bin/find","/usr/bin/find"]
+            let addArgument0 = ["-Rf","0:0",SLE]
+            let addArgument1 = [SLE,"-type","d","-exec","chmod","0755","{}","+"]
+            let addArgument2 = [SLE,"-type","f","-exec","chmod","0644","{}","+"]
+            let addArgument3 = [SLE,"-type","f","-path","*/MacOS/*","-exec","chmod","0755","{}","+"]
             
             //add operation
             command = command + addCommand
-            option = option + addOption
-            allPaths = allPaths + addAllPaths
-            destinyPath = destinyPath + addDestinyPath
+            forceArguments.append(addArgument0)
+            forceArguments.append(addArgument1)
+            forceArguments.append(addArgument2)
+            forceArguments.append(addArgument3)
         }
         if lePermissionCheck.state == .on {
-            //sudo chmod -Rf 755 /L*/E* and sudo chown -Rf 0:0 /L*/E*
-            let N = 2
-            let addCommand = ["/bin/chmod","/usr/sbin/chown"]
-            let addOption = [String](repeating: "-Rf", count: N)
-            let addAllPaths = ["755", "0:0"]
-            //destinyPath = ["/L*/E*", "/L*/E*"]
-            let addDestinyPath = [LE, LE]
+            let addCommand = ["/usr/sbin/chown","/usr/bin/find","/usr/bin/find","/usr/bin/find"]
+            let addArgument0 = ["-Rf","0:0",LE]
+            let addArgument1 = [LE,"-type","d","-exec","chmod","0755","{}","+"]
+            let addArgument2 = [LE,"-type","f","-exec","chmod","0644","{}","+"]
+            let addArgument3 = [LE,"-type","f","-path","*/MacOS/*","-exec","chmod","0755","{}","+"]
             
             //add operation
             command = command + addCommand
-            option = option + addOption
-            allPaths = allPaths + addAllPaths
-            destinyPath = destinyPath + addDestinyPath
+            forceArguments.append(addArgument0)
+            forceArguments.append(addArgument1)
+            forceArguments.append(addArgument2)
+            forceArguments.append(addArgument3)
         }
         if cacheCheck.state == .on {
             //sudo kextcache -i /
             //let N = 3
             let addCommand = ["/usr/sbin/kextcache"]
-            let addOption = ["-i"]
-            let addAllPaths = ["/"]
-            //destinyPath = ["/L*/E*", "/L*/E*"]
-            let addDestinyPath = [""]
+            let addArgument0 = ["-i","/"]
             
             //add operation
             command = command + addCommand
-            option = option + addOption
-            allPaths = allPaths + addAllPaths
-            destinyPath = destinyPath + addDestinyPath
+            forceArguments.append(addArgument0)
         }
-        
         
         //copy if auth existed already
         currentHelperAuthData = installAuthData ?? currentHelperAuthData
@@ -271,7 +270,7 @@ class maintenance: NSViewController, AppProtocol {
             //run command
             executeButton.isEnabled = false
             //let N = Double(command.count)
-            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, authData: authData) { (exitCode) in
+            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, authData: authData) { (exitCode) in
                 OperationQueue.main.addOperation {
                     // Verify that authentication was successful
                     guard exitCode != kAuthorizationFailedExitCode else {

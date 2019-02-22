@@ -101,39 +101,44 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     }
     */
     //general command
-    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, completion: @escaping (NSNumber) -> Void) {
+    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], completion: @escaping (NSNumber) -> Void) {
         
-        //check if backup needed
-        if !backupPath.isEmpty {
-            for i in destinyPath.indices {
-                let sourcePath = destinyPath[i] + (path[i] as NSString).lastPathComponent
-                let arguments = ["-rf", sourcePath, backupPath]
-                self.runTask(command: "/bin/cp", arguments: arguments, completion: completion)
+        //check force arguments
+        if !forceArguments.isEmpty {
+            for i in command.indices {
+                //NSLog("helper debug: " + command[i] + " " + forceArguments[i].joined(separator:" "))
+                self.runTask(command: command[i], arguments: forceArguments[i], completion: completion)
             }
-        }
-        // For security reasons, all commands should be hardcoded in the helper
-        // Run the task
-        if destinyPath.isEmpty {
-            //NSLog.print("empty path")
-        }
-        for i in path.indices {
-            var arguments = [option[i], path[i], destinyPath[i]]
-            //remove empty "" element
-            arguments.removeAll { $0 == "" }
-            //NSLog("helper debug: " + command[i] + " " + option[i] + " " + path[i] + " " + destinyPath[i])
-            self.runTask(command: command[i], arguments: arguments, completion: completion)
+        } else{
+            //check if backup needed
+            if !backupPath.isEmpty {
+                for i in destinyPath.indices {
+                    let sourcePath = destinyPath[i] + (path[i] as NSString).lastPathComponent
+                    let arguments = ["-rf", sourcePath, backupPath]
+                    self.runTask(command: "/bin/cp", arguments: arguments, completion: completion)
+                }
+            }
+            // For security reasons, all commands should be hardcoded in the helper
+            // Run the task
+            for i in path.indices {
+                var arguments = [option[i], path[i], destinyPath[i]]
+                //remove empty "" element
+                arguments.removeAll { $0 == "" }
+                //NSLog("helper debug: " + command[i] + " " + option[i] + " " + path[i] + " " + destinyPath[i])
+                self.runTask(command: command[i], arguments: arguments, completion: completion)
+            }
         }
     }
     
-    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, authData: NSData?, completion: @escaping (NSNumber) -> Void) {
+    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], authData: NSData?, completion: @escaping (NSNumber) -> Void) {
         
         // Check the passed authorization, if the user need to authenticate to use this command the user might be prompted depending on the settings and/or cached authentication.
-        guard self.verifyAuthorization(authData, forCommand: #selector(HelperProtocol.runCommand(withCommand:withOption:withPath:withDest:withBackup:authData:completion:))) else {
+        guard self.verifyAuthorization(authData, forCommand: #selector(HelperProtocol.runCommand(withCommand:withOption:withPath:withDest:withBackup:withForce:authData:completion:))) else {
             completion(kAuthorizationFailedExitCode)
             return
         }
         
-        self.runCommand(withCommand: command, withOption: option, withPath: path, withDest: destinyPath, withBackup: backupPath, completion: completion)
+        self.runCommand(withCommand: command, withOption: option, withPath: path, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, completion: completion)
         
     }
 
