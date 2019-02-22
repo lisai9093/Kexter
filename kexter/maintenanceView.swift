@@ -236,10 +236,10 @@ class maintenance: NSViewController, AppProtocol {
             //sudo touch -f /S*/L*/E* && sudo touch -f /L*/E* && sudo kextcache -Boot -U /
             //let N = 3
             let addCommand = ["/usr/bin/touch","/usr/bin/touch","/usr/sbin/kextcache"]
-            let addOption = ["-f","-f","-Boot"]
-            let addAllPaths = [SLE, LE, "-U"]
+            let addOption = ["-f","-f","-i"]
+            let addAllPaths = [SLE, LE, "/"]
             //destinyPath = ["/L*/E*", "/L*/E*"]
-            let addDestinyPath = ["","","/"]
+            let addDestinyPath = ["","",""]
             
             //add operation
             command = command + addCommand
