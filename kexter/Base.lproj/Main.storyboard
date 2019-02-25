@@ -53,7 +53,7 @@
             <objects>
                 <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="g1G-ba-jOv" sceneMemberID="viewController">
                     <tabViewItems>
-                        <tabViewItem identifier="" image="NSAdvanced" id="1nI-KQ-753" userLabel="Maintenance"/>
+                        <tabViewItem identifier="" image="maintenance" id="1nI-KQ-753" userLabel="Maintenance"/>
                         <tabViewItem identifier="" image="Installer" id="8Zi-Xo-nd4" userLabel="Installation"/>
                     </tabViewItems>
                     <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
@@ -772,6 +772,6 @@
     </scenes>
     <resources>
         <image name="Installer" width="512" height="512"/>
-        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="maintenance" width="128" height="128"/>
     </resources>
 </document>

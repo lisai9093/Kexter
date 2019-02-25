@@ -28,6 +28,7 @@
 		D75070F7221BEA6C00B42B9C /* maintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75070F6221BEA6C00B42B9C /* maintenanceView.swift */; };
 		D75070FF221CF35F00B42B9C /* Installer.icns in Resources */ = {isa = PBXBuildFile; fileRef = D75070FA221CE92100B42B9C /* Installer.icns */; };
 		D7507105221CFA6100B42B9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53604C08215E12F400071149 /* Assets.xcassets */; };
+		D79EAF5E2224A8AB00586C49 /* maintenance.icns in Resources */ = {isa = PBXBuildFile; fileRef = D79EAF5D2224A8AB00586C49 /* maintenance.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		D75070F9221CE92100B42B9C /* KEXT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KEXT.icns; sourceTree = "<group>"; };
 		D75070FA221CE92100B42B9C /* Installer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Installer.icns; sourceTree = "<group>"; };
 		D75070FD221CF05A00B42B9C /* kexter.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = kexter.icns; sourceTree = "<group>"; };
+		D79EAF5D2224A8AB00586C49 /* maintenance.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = maintenance.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				D75070F9221CE92100B42B9C /* KEXT.icns */,
+				D79EAF5D2224A8AB00586C49 /* maintenance.icns */,
 				D75070FA221CE92100B42B9C /* Installer.icns */,
 				D75070FD221CF05A00B42B9C /* kexter.icns */,
 			);
@@ -281,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D75070EB221A146100B42B9C /* Main.storyboard in Resources */,
+				D79EAF5E2224A8AB00586C49 /* maintenance.icns in Resources */,
 				D7507105221CFA6100B42B9C /* Assets.xcassets in Resources */,
 				D75070FF221CF35F00B42B9C /* Installer.icns in Resources */,
 			);
@@ -499,7 +503,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VS547X25DS;
 				INFOPLIST_FILE = kexter/Info.plist;
@@ -520,7 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VS547X25DS;
 				INFOPLIST_FILE = kexter/Info.plist;
