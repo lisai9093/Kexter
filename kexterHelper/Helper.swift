@@ -103,14 +103,20 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     //general command
     func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], completion: @escaping (NSNumber) -> Void) {
         //array
+        var currentTask = 0
         let N = command.count
-        var completions = [(NSNumber) -> Void](repeating: completion, count: N)
         //NSLog("helper debug start!")
         //check force arguments
         if !forceArguments.isEmpty {
             for i in command.indices {
                 //NSLog("helper debug: " + command[i] + " " + forceArguments[i].joined(separator:" "))
-                self.runTask(command: command[i], arguments: forceArguments[i], completion: completions[i])
+                self.runTask(command: command[i], arguments: forceArguments[i]){(exitCode) in
+                    //after each command line
+                    currentTask = currentTask + 1
+                    if currentTask == N {
+                        completion(N as NSNumber)
+                    }
+                }
             }
         } else{
             //check if backup needed
@@ -118,7 +124,9 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
                 for i in destinyPath.indices {
                     let sourcePath = destinyPath[i] + (path[i] as NSString).lastPathComponent
                     let arguments = ["-rf", sourcePath, backupPath]
-                    self.runTask(command: "/bin/cp", arguments: arguments, completion: completion)
+                    self.runTask(command: "/bin/cp", arguments: arguments){(exitCode) in
+                        //after each command line
+                    }
                 }
             }
             // For security reasons, all commands should be hardcoded in the helper
@@ -128,9 +136,12 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
                 //remove empty "" element
                 arguments.removeAll { $0 == "" }
                 //NSLog("helper debug: " + command[i] + " " + option[i] + " " + path[i] + " " + destinyPath[i])
-                self.runTask(command: command[i], arguments: arguments, completion: completions[i])
+                self.runTask(command: command[i], arguments: arguments){(exitCode) in
+                    //after each command line
+                }
             }
         }
+        
     }
     
     func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], authData: NSData?, completion: @escaping (NSNumber) -> Void) {
