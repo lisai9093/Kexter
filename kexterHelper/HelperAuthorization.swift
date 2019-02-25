@@ -14,7 +14,7 @@ class HelperAuthorization {
     // FIXME: Add all functions that require authentication here.
 
     static let authorizationRights = [
-        HelperAuthorizationRight(command: #selector(HelperProtocol.runCommand(withCommand:withOption:withPath:withDest:withBackup:withForce:authData:completion:)),
+        HelperAuthorizationRight(command: #selector(HelperProtocol.runCommand(withCommand:withArgs:authData:completion:)),
                                  description: "Kexter wants to make changes.",
                                  ruleCustom: [kAuthorizationRightKeyClass: "user", kAuthorizationRightKeyGroup: "admin", kAuthorizationRightKeyVersion: 1])
     ]

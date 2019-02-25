@@ -80,7 +80,6 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     func runCommandLs(withPath path: String, completion: @escaping (NSNumber) -> Void) {
 
         // For security reasons, all commands should be hardcoded in the helper
-        Swift.print("Debug!")
         let command = "/bin/mkdir"
         let arguments = [path]
 
@@ -101,16 +100,16 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     }
     */
     //general command
-    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], completion: @escaping (NSNumber) -> Void) {
+    func runCommand(withCommand command: [String], withArgs arguments: [[String]], completion: @escaping (NSNumber) -> Void) {
         //array
         var currentTask = 0
         let N = command.count
         //NSLog("helper debug start!")
         //check force arguments
-        if !forceArguments.isEmpty {
+        if !arguments.isEmpty {
             for i in command.indices {
                 //NSLog("helper debug: " + command[i] + " " + forceArguments[i].joined(separator:" "))
-                self.runTask(command: command[i], arguments: forceArguments[i]){(exitCode) in
+                self.runTask(command: command[i], arguments: arguments[i]){(exitCode) in
                     //after each command line
                     currentTask = currentTask + 1
                     if currentTask == N {
@@ -119,40 +118,20 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
                 }
             }
         } else{
-            //check if backup needed
-            if !backupPath.isEmpty {
-                for i in destinyPath.indices {
-                    let sourcePath = destinyPath[i] + (path[i] as NSString).lastPathComponent
-                    let arguments = ["-rf", sourcePath, backupPath]
-                    self.runTask(command: "/bin/cp", arguments: arguments){(exitCode) in
-                        //after each command line
-                    }
-                }
-            }
-            // For security reasons, all commands should be hardcoded in the helper
-            // Run the task
-            for i in path.indices {
-                var arguments = [option[i], path[i], destinyPath[i]]
-                //remove empty "" element
-                arguments.removeAll { $0 == "" }
-                //NSLog("helper debug: " + command[i] + " " + option[i] + " " + path[i] + " " + destinyPath[i])
-                self.runTask(command: command[i], arguments: arguments){(exitCode) in
-                    //after each command line
-                }
-            }
+            //error: no command found!
         }
         
     }
     
-    func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], authData: NSData?, completion: @escaping (NSNumber) -> Void) {
+    func runCommand(withCommand command: [String], withArgs arguments: [[String]], authData: NSData?, completion: @escaping (NSNumber) -> Void) {
         
         // Check the passed authorization, if the user need to authenticate to use this command the user might be prompted depending on the settings and/or cached authentication.
-        guard self.verifyAuthorization(authData, forCommand: #selector(HelperProtocol.runCommand(withCommand:withOption:withPath:withDest:withBackup:withForce:authData:completion:))) else {
+        guard self.verifyAuthorization(authData, forCommand: #selector(HelperProtocol.runCommand(withCommand:withArgs:authData:completion:))) else {
             completion(kAuthorizationFailedExitCode)
             return
         }
         
-        self.runCommand(withCommand: command, withOption: option, withPath: path, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, completion: completion)
+        self.runCommand(withCommand: command, withArgs: arguments, completion: completion)
         
     }
 

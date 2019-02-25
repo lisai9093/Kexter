@@ -202,10 +202,6 @@ class maintenance: NSViewController, AppProtocol {
         
         //prepare commands
         var command = [String]()
-        let option = [String]()
-        let allPaths = [String]()
-        let destinyPath = [String]()
-        let backupPath = String()
         var forceArguments = [[String]]()
         
         //permission change:
@@ -272,7 +268,7 @@ class maintenance: NSViewController, AppProtocol {
             //run command
             executeButton.isEnabled = false
             //let N = Double(command.count)
-            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, authData: authData) { (exitCode) in
+            helper.runCommand(withCommand: command, withArgs: forceArguments, authData: authData) { (exitCode) in
                 OperationQueue.main.addOperation {
                     // Verify that authentication was successful
                     guard exitCode != kAuthorizationFailedExitCode else {

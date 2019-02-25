@@ -192,21 +192,13 @@ class installaion: NSViewController, AppProtocol, mainCommand {
             let helper = self.helper(nil) else { return }
         
         //prepare destiny
-        let N = allPaths.count
+        //let N = allPaths.count
         //destiny = homeURL.path + "/Desktop/" //debug only, must remove
-        let command = [String](repeating: "/bin/cp", count: N)
-        let option = [String](repeating: "-R", count: N)
-        var destinyPath = [String]()
-        var backupPath = String()
-        let forceArguments = [[String]]()
-        destinyPath = [String](repeating: destiny, count: N)
+        var command = [String]()
+        var forceArguments = [[String]]()
         
-        
-        
-        if backupCheck.state == NSControl.StateValue.off {
-            //self.textViewOutput.appendText("No back up")
-        } else {
-            //self.textViewOutput.appendText("Need back up")
+        if backupCheck.state == NSControl.StateValue.on {
+        //self.textViewOutput.appendText("Need back up")
             // get the current date and time
             let currentDateTime = Date()
             // get the user's calendar
@@ -224,7 +216,7 @@ class installaion: NSViewController, AppProtocol, mainCommand {
             let dateTimeComponents = userCalendar.dateComponents(requestedComponents, from: currentDateTime)
             let timeStamp = String(dateTimeComponents.year!) + "-" + String(dateTimeComponents.month!) + "-" + String(dateTimeComponents.day!) + "_" + String(dateTimeComponents.hour!) + "-" + String(dateTimeComponents.minute!) + "-" + String(dateTimeComponents.second!)
 
-            backupPath = homeURL.path + "/Desktop" + "/Kexter_Backup_" + timeStamp
+            let backupPath = homeURL.path + "/Desktop" + "/Kexter_Backup_" + timeStamp
             do
             {
                 try FileManager.default.createDirectory(atPath: backupPath, withIntermediateDirectories: true, attributes: nil)
@@ -233,7 +225,44 @@ class installaion: NSViewController, AppProtocol, mainCommand {
             {
                 NSLog("Unable to create directory. %s", error.debugDescription)
             }
+            
+            //update backup command
+            for i in allPaths.indices {
+                let destinyPath = destiny + (allPaths[i] as NSString).lastPathComponent
+                let addCommand = ["/bin/cp"]
+                let addArgument = ["-R",destinyPath,backupPath]
+                command = command + addCommand
+                forceArguments.append(addArgument)
+            }
         }
+        
+        for i in allPaths.indices {
+            let addCommand = ["/bin/cp"]
+            let addArgument = ["-R",allPaths[i],destiny]
+            command = command + addCommand
+            forceArguments.append(addArgument)
+        }
+        //correct permissions
+        for i in allPaths.indices {
+            let destinyPath = destiny + (allPaths[i] as NSString).lastPathComponent
+            let addCommand = ["/usr/sbin/chown","/usr/bin/find","/usr/bin/find","/usr/bin/find"]
+            let addArgument0 = ["-Rf","0:0",destinyPath]
+            let addArgument1 = [destinyPath,"-type","d","-exec","chmod","0755","{}","+"]
+            let addArgument2 = [destinyPath,"-type","f","-exec","chmod","0644","{}","+"]
+            let addArgument3 = [destinyPath,"-type","f","-path","*/MacOS/*","-exec","chmod","0755","{}","+"]
+            
+            command = command + addCommand
+            forceArguments.append(addArgument0)
+            forceArguments.append(addArgument1)
+            forceArguments.append(addArgument2)
+            forceArguments.append(addArgument3)
+        }
+        
+        /*
+        for i in command.indices {
+            Swift.print("debug: " + command[i] + " " + forceArguments[i].joined(separator:" "))
+        }
+        */
         
         //copy if auth existed already
         currentHelperAuthData = maintainAuthData ?? currentHelperAuthData
@@ -243,15 +272,9 @@ class installaion: NSViewController, AppProtocol, mainCommand {
                 //self.textViewOutput.appendText("Failed to get the empty authorization external form")
                 return
             }
-            /*
-            for i in allPaths.indices {
-                let stringPrint = command[i] + " " + option[i] + " " + allPaths[i] + " " + destinyPath[i]
-                //self.textViewOutput.appendText(stringPrint)
-            }
-             */
             //run command
             buttonInstallHelper.isEnabled = false
-            helper.runCommand(withCommand: command, withOption: option, withPath: allPaths, withDest: destinyPath, withBackup: backupPath, withForce: forceArguments, authData: authData) { (exitCode) in
+            helper.runCommand(withCommand: command, withArgs: forceArguments, authData: authData) { (exitCode) in
                 OperationQueue.main.addOperation {
                     // Verify that authentication was successful
                     guard exitCode != kAuthorizationFailedExitCode else {
@@ -284,7 +307,6 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         // Comppare the CFBundleShortVersionString from the Info.plis in the helper inside our application bundle with the one on disk.
         
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/" + HelperConstants.machServiceName)
-        Swift.print(helperURL.absoluteString)
         guard
             //helperBundleInfo is helper info version
             let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
@@ -466,7 +488,7 @@ extension installaion: NSTableViewDelegate, NSTableViewDataSource {
         return buffer
     }
     func debugPrint() {
-        Swift.print("debug at maintenance")
+        Swift.print("debug at installation")
     }
 }
 
