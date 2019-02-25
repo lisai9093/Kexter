@@ -265,19 +265,8 @@
                                     <action selector="sleCheck:" target="hon-wA-IkO" id="yhv-6E-gSD"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sPj-Dn-vTQ">
-                                <rect key="frame" x="30" y="292" width="137" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Repair permissions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Tgg-Cj-48D">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="slePermissionCheck:" target="hon-wA-IkO" id="h7A-Ev-pnA"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZC-sZ-jjt">
-                                <rect key="frame" x="18" y="248" width="134" height="18"/>
+                                <rect key="frame" x="18" y="234" width="134" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Library/Extensions" bezelStyle="regularSquare" imagePosition="left" allowsMixedState="YES" inset="2" id="hl0-8b-qQh">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -288,7 +277,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="afQ-Dq-crV">
-                                <rect key="frame" x="30" y="209" width="137" height="18"/>
+                                <rect key="frame" x="30" y="200" width="137" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Repair permissions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HjW-rP-YPv">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -299,7 +288,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKv-Kw-8mE">
-                                <rect key="frame" x="18" y="165" width="108" height="18"/>
+                                <rect key="frame" x="18" y="140" width="108" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Rebuild cache" bezelStyle="regularSquare" imagePosition="left" inset="2" id="qzB-ry-S4U">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -313,26 +302,17 @@
                                 <rect key="frame" x="19" y="77" width="418" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hso-CE-iWm">
-                                <rect key="frame" x="50" y="272" width="371" height="14"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Repair ownership (root:wheel) and permissions (755) for /S/L/E folder." id="G0W-cn-3kw">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fy-Hx-pFg">
-                                <rect key="frame" x="50" y="189" width="360" height="14"/>
+                                <rect key="frame" x="50" y="164" width="358" height="30"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Repair ownership (root:wheel) and permissions (755) for /L/E folder." id="RD1-ae-gbU">
+                                <textFieldCell key="cell" title="Repair ownership (root:wheel) and permissions (755/644) for /L/E folder/files." id="RD1-ae-gbU">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlE-zc-JwA">
-                                <rect key="frame" x="38" y="123" width="394" height="36"/>
+                                <rect key="frame" x="38" y="98" width="394" height="36"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" title="Rebuild system kext cache for both System/Library/Extensions and Library/Extensions" id="a8X-xs-Dq3">
                                     <font key="font" metaFont="smallSystem"/>
@@ -344,6 +324,26 @@
                                 <rect key="frame" x="20" y="19" width="204" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sPj-Dn-vTQ">
+                                <rect key="frame" x="30" y="298" width="137" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Repair permissions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Tgg-Cj-48D">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="slePermissionCheck:" target="hon-wA-IkO" id="h7A-Ev-pnA"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hso-CE-iWm">
+                                <rect key="frame" x="50" y="264" width="390" height="28"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" title="Repair ownership (root:wheel) and permissions (755/644) for /S/L/E folder/files." id="G0W-cn-3kw">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
