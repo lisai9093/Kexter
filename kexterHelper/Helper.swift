@@ -102,12 +102,15 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     */
     //general command
     func runCommand(withCommand command: [String], withOption option: [String], withPath path: [String], withDest destinyPath: [String], withBackup backupPath: String, withForce forceArguments: [[String]], completion: @escaping (NSNumber) -> Void) {
-        
+        //array
+        let N = command.count
+        var completions = [(NSNumber) -> Void](repeating: completion, count: N)
+        //NSLog("helper debug start!")
         //check force arguments
         if !forceArguments.isEmpty {
             for i in command.indices {
                 //NSLog("helper debug: " + command[i] + " " + forceArguments[i].joined(separator:" "))
-                self.runTask(command: command[i], arguments: forceArguments[i], completion: completion)
+                self.runTask(command: command[i], arguments: forceArguments[i], completion: completions[i])
             }
         } else{
             //check if backup needed
@@ -125,7 +128,7 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
                 //remove empty "" element
                 arguments.removeAll { $0 == "" }
                 //NSLog("helper debug: " + command[i] + " " + option[i] + " " + path[i] + " " + destinyPath[i])
-                self.runTask(command: command[i], arguments: arguments, completion: completion)
+                self.runTask(command: command[i], arguments: arguments, completion: completions[i])
             }
         }
     }
@@ -202,7 +205,6 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
 
         task.terminationHandler = { task in
             completion(NSNumber(value: task.terminationStatus))
-            
         }
 
         task.launch()

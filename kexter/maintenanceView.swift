@@ -281,7 +281,7 @@ class maintenance: NSViewController, AppProtocol {
                         return
                     }
                     //self.textViewOutput.appendText("Command exit code: \(exitCode)")
-                    
+                    Swift.print("Command exit code: \(exitCode)")
                     self.maintenanceProgress.stopAnimation(nil)
                     self.maintenanceProgress.isIndeterminate = false
                     let incrementNum : Double = 100.0
