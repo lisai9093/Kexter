@@ -28,6 +28,8 @@
 		D75070F7221BEA6C00B42B9C /* maintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75070F6221BEA6C00B42B9C /* maintenanceView.swift */; };
 		D75070FF221CF35F00B42B9C /* Installer.icns in Resources */ = {isa = PBXBuildFile; fileRef = D75070FA221CE92100B42B9C /* Installer.icns */; };
 		D7507105221CFA6100B42B9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53604C08215E12F400071149 /* Assets.xcassets */; };
+		D791D9A2222713D100086117 /* kextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D791D9A1222713D100086117 /* kextView.swift */; };
+		D791D9A322271AEE00086117 /* KEXT.icns in Resources */ = {isa = PBXBuildFile; fileRef = D75070F9221CE92100B42B9C /* KEXT.icns */; };
 		D79EAF5E2224A8AB00586C49 /* maintenance.icns in Resources */ = {isa = PBXBuildFile; fileRef = D79EAF5D2224A8AB00586C49 /* maintenance.icns */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +90,8 @@
 		D75070F9221CE92100B42B9C /* KEXT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KEXT.icns; sourceTree = "<group>"; };
 		D75070FA221CE92100B42B9C /* Installer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Installer.icns; sourceTree = "<group>"; };
 		D75070FD221CF05A00B42B9C /* kexter.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = kexter.icns; sourceTree = "<group>"; };
+		D791D9A1222713D100086117 /* kextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = kextView.swift; sourceTree = "<group>"; };
+		D791D9A422271F5500086117 /* Kexter-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kexter-Swift.h"; sourceTree = "<group>"; };
 		D79EAF5D2224A8AB00586C49 /* maintenance.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = maintenance.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,7 +146,9 @@
 		53604C05215E12F300071149 /* kexter */ = {
 			isa = PBXGroup;
 			children = (
+				D791D9A422271F5500086117 /* Kexter-Swift.h */,
 				D75070F1221A1C6C00B42B9C /* installationView.swift */,
+				D791D9A1222713D100086117 /* kextView.swift */,
 				D75070F6221BEA6C00B42B9C /* maintenanceView.swift */,
 				53604C29215E1B0100071149 /* AppProtocol.swift */,
 				53604C06215E12F300071149 /* AppDelegate.swift */,
@@ -285,6 +291,7 @@
 			files = (
 				D75070EB221A146100B42B9C /* Main.storyboard in Resources */,
 				D79EAF5E2224A8AB00586C49 /* maintenance.icns in Resources */,
+				D791D9A322271AEE00086117 /* KEXT.icns in Resources */,
 				D7507105221CFA6100B42B9C /* Assets.xcassets in Resources */,
 				D75070FF221CF35F00B42B9C /* Installer.icns in Resources */,
 			);
@@ -336,6 +343,7 @@
 			files = (
 				53604C07215E12F300071149 /* AppDelegate.swift in Sources */,
 				535731AF215E1E5A009FDE00 /* HelperConstants.swift in Sources */,
+				D791D9A2222713D100086117 /* kextView.swift in Sources */,
 				53604C2A215E1B0100071149 /* AppProtocol.swift in Sources */,
 				53EE395F215E2631007310F5 /* HelperProtocol.swift in Sources */,
 				53EE3965215E3A85007310F5 /* HelperAuthorizationRight.swift in Sources */,
@@ -503,7 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VS547X25DS;
 				INFOPLIST_FILE = kexter/Info.plist;
@@ -515,6 +523,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Kexter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "kexter/Kexter-Swift.h";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -524,7 +533,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VS547X25DS;
 				INFOPLIST_FILE = kexter/Info.plist;
@@ -536,6 +545,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Kexter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "kexter/Kexter-Swift.h";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

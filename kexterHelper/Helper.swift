@@ -119,6 +119,7 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
             }
         } else{
             //error: no command found!
+            completion(0 as NSNumber)
         }
         
     }

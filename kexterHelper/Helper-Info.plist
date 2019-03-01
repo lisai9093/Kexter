@@ -9,9 +9,9 @@
 	<key>CFBundleName</key>
 	<string>kexter.helper</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.6</string>
+	<string>1.5.7</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.6</string>
+	<string>1.5.7</string>
 	<key>SMAuthorizedClients</key>
 	<array>
 		<string>identifier "Kexter" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: lisai9093@live.com (N9XTZGH642)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>

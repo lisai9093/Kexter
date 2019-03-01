@@ -113,23 +113,25 @@ class installaion: NSViewController, AppProtocol, mainCommand {
         dialog.allowsMultipleSelection = true;
         dialog.allowedFileTypes        = ["kext"];
         
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            let result = dialog.urls // Pathname of the files
-            if (!result.isEmpty) {
-                for element in result {
-                    let path = element.path
-                    
-                    if !allPaths.contains(path) {
-                        //run only if unique element added
-                        allPaths.append(path)
-                        tableViewData.append(["path":path])
+        dialog.beginSheetModal(for:self.view.window!) { (response) in
+            if response.rawValue == NSApplication.ModalResponse.OK.rawValue {
+                let result = dialog.urls // Pathname of the files
+                if (!result.isEmpty) {
+                    for element in result {
+                        let path = element.path
+                        
+                        if !self.allPaths.contains(path) {
+                            //run only if unique element added
+                            self.allPaths.append(path)
+                            self.tableViewData.append(["path":path])
+                        }
                     }
+                    self.tableView.reloadData()
                 }
-                tableView.reloadData()
+            } else {
+                // User clicked on "Cancel"
+                return
             }
-        } else {
-            // User clicked on "Cancel"
-            return
         }
     }
     
